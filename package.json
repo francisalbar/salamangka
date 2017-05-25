@@ -1,0 +1,33 @@
+{
+  "name": "salamangka",
+  "version": "1.0.0",
+  "description": "Track my MTG Collection.",
+  "main": "index.js",
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "bcrypt": "^1.0.2",
+    "cheerio": "^0.22.0",
+    "classnames": "^2.2.5",
+    "iconv-lite": "^0.4.17",
+    "meteor-node-stubs": "^0.2.6",
+    "moment": "^2.18.1",
+    "react": "^15.5.4",
+    "react-addons-pure-render-mixin": "^15.5.2",
+    "react-dom": "^15.5.4",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francisalbar/salamangka.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francisalbar/salamangka/issues"
+  },
+  "homepage": "https://github.com/francisalbar/salamangka#readme"
+}
