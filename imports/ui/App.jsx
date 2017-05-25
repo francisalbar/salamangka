@@ -29,22 +29,9 @@ class App extends Component {
   }
 
   selectEvent(eventId) {
-
     this.setState({
       selectedEvent: eventId,
     });
-    /*
-    let event = this.props.selectedEvent;
-
-    console.log('selectEvent: ' + event._id + '->' + eventId);
-    // console.log(event._id, event);
-    console.log('A', this.props.selectedEvent);
-    console.log('AAAA', this.props.selectedEventFilter);
-    this.props.selectedEventFilter = { _id: eventId };
-    // console.log('A1', Events.findOne({ _id: eventId }, { sort: { createdAt: -1 } }));
-    // this.props.selectedEvent = Events.findOne({ _id: eventId }, { sort: { createdAt: -1 } });
-    console.log('B', this.props.selectedEvent);
-    */
   }
 
   renderEvents() {
@@ -90,9 +77,8 @@ class App extends Component {
       const showPrivateButton = event.owner === currentUserId;
 
       return (
-        <li>
+        <li key={event._id}>
           <EventListing
-            key={event._id}
             event={event}
             onSelect={this.selectEvent.bind(this)}
           />
@@ -118,6 +104,7 @@ class App extends Component {
         key={event._id}
         event={event}
         showPrivateButton={showPrivateButton}
+        decks={this.props.decks.filter(deck => deck.eventId === event._id)}
       />
     );
   }
@@ -145,17 +132,11 @@ class App extends Component {
         <ul>
           {this.renderEventList()}
         </ul>
-        <ul>
-          {/*this.renderEvents()*/}
-        </ul>
 
         <hr />
 
         {this.renderSelectedEvent()}
 
-        <ul>
-          {/*this.renderDecks()*/}
-        </ul>
       </div>
     );
   }

@@ -16,7 +16,7 @@ export default class Deck extends Component {
   renderCards() {
     return this.props.deck.cards.map((card) => {
       return (
-        <li>{ card.name } ({ card.count })</li>
+        <li key={this.props.deck._id + card.name}>{ card.name } ({ card.count })</li>
       );
     });
   }
@@ -30,7 +30,7 @@ export default class Deck extends Component {
     });
 
     return (
-      <li>
+      <div className="deck">
         <button className="delete" onClick={this.deleteThisDeck.bind(this)}>
           &times;
         </button>
@@ -46,7 +46,7 @@ export default class Deck extends Component {
         <ul>
           {this.renderCards()}
         </ul>
-      </li>
+      </div>
     );
   }
 }
@@ -55,5 +55,28 @@ Deck.propTypes = {
   // This component gets the deck to display through a React prop.
   // We can use propTypes to indicate it is required
   deck: PropTypes.object.isRequired,
-  showPrivateButton: React.PropTypes.bool.isRequired,
+  // showPrivateButton: React.PropTypes.bool.isRequired,
 };
+
+export class DeckListing extends Deck {
+
+  selectThisDeck(e) {
+    e.preventDefault();
+
+    if (typeof this.props.onSelect === 'function') {
+      this.props.onSelect(this.props.deck._id);
+    }
+
+    return false;
+  }
+
+  render () {
+    return (
+      <div className="deck-listing">
+        <a href="#" onClick={this.selectThisDeck.bind(this)}>
+          <span className="text">{this.props.deck.player} ({this.props.deck.result})</span>
+        </a>
+      </div>
+    );
+  }
+}

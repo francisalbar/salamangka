@@ -2,8 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import classnames from 'classnames';
 
+import Deck, { DeckListing } from './Deck.jsx';
+
 // Event component - represents a single todo item
 export default class Event extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedDeck: null,
+    };
+  }
 
   displayEvent() {
     console.log('list this event')
@@ -15,6 +24,48 @@ export default class Event extends Component {
 
   togglePrivate() {
     Meteor.call('events.setPrivate', this.props.event._id, ! this.props.event.private);
+  }
+
+  selectDeck(deckId) {
+    this.setState({
+      selectedDeck: deckId,
+    });
+  }
+
+  renderSelectedDeck() {
+    let deck = this.state.selectedDeck ?
+      this.props.decks.filter(d => d._id === this.state.selectedDeck)[0] :
+      this.props.decks[0];
+    if (!deck) {
+      return null;
+    }
+
+    return (
+      <Deck
+        deck={deck}
+      />
+    );
+  }
+
+  renderDecks() {
+    if (!this.props.decks) {
+      return null;
+    }
+
+    return this.props.decks.map((deck) => {
+      const currentUserId = this.props.currentUser && this.props.currentUser._id;
+      const showPrivateButton = deck.owner === currentUserId;
+
+      return (
+        <li key={deck._id}>
+          <DeckListing
+            deck={deck}
+            showPrivateButton={showPrivateButton}
+            onSelect={this.selectDeck.bind(this)}
+          />
+        </li>
+      );
+    });
   }
 
   render() {
@@ -49,11 +100,17 @@ export default class Event extends Component {
           <span className="event-deck-count">({this.props.event.deckCount})</span>
         </span>
 
-        <h2>Decks</h2>
+        { this.props.decks ? (
+          <div className="event-decks">
+            <h2>Decks</h2>
 
-        <ul>
-          List decks here
-        </ul>
+            <ul>
+              { this.renderDecks() }
+            </ul>
+
+            {this.renderSelectedDeck()}
+          </div>
+        ) : ''}
 
       </div>
     );
@@ -69,7 +126,9 @@ Event.propTypes = {
 
 export class EventListing extends Event {
 
-  selectThisEvent() {
+  selectThisEvent(e) {
+    e.preventDefault();
+
     if (typeof this.props.onSelect === 'function') {
       this.props.onSelect(this.props.event._id);
     }
