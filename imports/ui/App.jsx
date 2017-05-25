@@ -7,17 +7,44 @@ import { Decks } from '../api/decks.js';
 import { Events } from '../api/events.js';
 
 import Deck from './Deck.jsx';
-import Event from './Event.jsx';
+import Event, { EventListing } from './Event.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
 // App component - represents the whole app
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedEvent: null,
+    };
+  }
+
   loadMTGOEvent(event) {
     event.preventDefault();
 
     const url = ReactDOM.findDOMNode(this.refs.mtgoURLInput).value.trim();
 
     Meteor.call('events.loadMTGOEvent', url);
+  }
+
+  selectEvent(eventId) {
+
+    this.setState({
+      selectedEvent: eventId,
+    });
+    /*
+    let event = this.props.selectedEvent;
+
+    console.log('selectEvent: ' + event._id + '->' + eventId);
+    // console.log(event._id, event);
+    console.log('A', this.props.selectedEvent);
+    console.log('AAAA', this.props.selectedEventFilter);
+    this.props.selectedEventFilter = { _id: eventId };
+    // console.log('A1', Events.findOne({ _id: eventId }, { sort: { createdAt: -1 } }));
+    // this.props.selectedEvent = Events.findOne({ _id: eventId }, { sort: { createdAt: -1 } });
+    console.log('B', this.props.selectedEvent);
+    */
   }
 
   renderEvents() {
@@ -55,6 +82,46 @@ class App extends Component {
     });
   }
 
+
+  renderEventList() {
+    let filteredEvents = this.props.events;
+    return filteredEvents.map((event) => {
+      const currentUserId = this.props.currentUser && this.props.currentUser._id;
+      const showPrivateButton = event.owner === currentUserId;
+
+      return (
+        <li>
+          <EventListing
+            key={event._id}
+            event={event}
+            onSelect={this.selectEvent.bind(this)}
+          />
+        </li>
+      );
+    });
+  }
+
+
+  renderSelectedEvent() {
+    let event = this.state.selectedEvent ?
+      this.props.events.filter(e => e._id === this.state.selectedEvent)[0] :
+      this.props.events[0];
+    if (!event) {
+      return null;
+    }
+
+    const currentUserId = this.props.currentUser && this.props.currentUser._id;
+    const showPrivateButton = event.owner === currentUserId;
+
+    return (
+      <Event
+        key={event._id}
+        event={event}
+        showPrivateButton={showPrivateButton}
+      />
+    );
+  }
+
   render() {
     return (
       <div className="container">
@@ -76,12 +143,18 @@ class App extends Component {
 
         <h2>Events</h2>
         <ul>
-          {this.renderEvents()}
+          {this.renderEventList()}
+        </ul>
+        <ul>
+          {/*this.renderEvents()*/}
         </ul>
 
-        <h2>Decks</h2>
+        <hr />
+
+        {this.renderSelectedEvent()}
+
         <ul>
-          {this.renderDecks()}
+          {/*this.renderDecks()*/}
         </ul>
       </div>
     );

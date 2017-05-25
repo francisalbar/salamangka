@@ -28,17 +28,17 @@ Meteor.methods({
 
     if (Meteor.isServer) {
 
-  		req(url, Meteor.bindEnvironment(function (err, res) {
-  		  if (err) return callback(err);
+      req(url, Meteor.bindEnvironment(function (err, res) {
+        if (err) return callback(err);
 
-  		  let $ = cheerio.load(iconv.decode(res.body, 'latin-1'));
+        let $ = cheerio.load(iconv.decode(res.body, 'latin-1'));
 
-  		  let eventDate = moment($('.posted-in').text().split('on').pop().trim(), 'MMMM D, YYYY');
-  		  let eventName = $('h1').text().trim() + ' ' + eventDate.format('YYYY-MM-DD');
-  		  //console.log('on', moment($('.posted-in').text().split('on').pop().trim()));
-  		  //console.log('H1', eventName);
+        let eventDate = moment($('.posted-in').text().split('on').pop().trim(), 'MMMM D, YYYY');
+        let eventName = $('h1').text().trim() + ' ' + eventDate.format('YYYY-MM-DD');
+        //console.log('on', moment($('.posted-in').text().split('on').pop().trim()));
+        //console.log('H1', eventName);
 
-  		  let deckLists = $('#content-detail-page-of-an-article .decklists').children();
+        let deckLists = $('#content-detail-page-of-an-article .decklists').children();
 
         let newEvent = {
           createdAt: new Date(),
@@ -52,54 +52,54 @@ Meteor.methods({
 
         let eventId = Events.insert(newEvent);
 
-  		  deckLists.each((i, deckItem) => {
+        deckLists.each((i, deckItem) => {
 
           let meta = $(deckItem).find('.deck-meta h4').text().trim();
-    			let newDeck = {
+          let newDeck = {
             createdAt: new Date(),
             owner: Meteor.userId(),
             username: Meteor.user().username,
-    			  source: url,
-    			  eventName: eventName,
+            source: url,
+            eventName: eventName,
             eventDate: eventDate.format('YYYY-MM-DD'),
-    			  eventId: eventId,
-    			  player: /^([\w\-]+)/.exec( meta )[0],
-    			  result: /(\(.*\))/.exec( meta )[0].replace( /[\(\)]/g,''),
-    			  cards: [],
-    			  sideboard: [],
-    			};
+            eventId: eventId,
+            player: /^([\w\-]+)/.exec( meta )[0],
+            result: /(\(.*\))/.exec( meta )[0].replace( /[\(\)]/g,''),
+            cards: [],
+            sideboard: [],
+          };
 
-  		  	// console.log(deckItem);
-  		  	// console.log('deck: ' + $(deckItem).find('.deck-meta h4').text().trim());
-  		  	let mainDeck = $(deckItem).find('.sorted-by-overview-container .row');
-  		  	mainDeck.each((j, cardItem) => {
-  		  	  let count = $(cardItem).find('.card-count').text().trim();
-  		  	  let name = $(cardItem).find('.card-name').text().trim();
-  		  	  newDeck.cards.push({
-  		  	  	count: count,
-  		  	  	name: name,
-  		  	  });
-  		  	});
+          // console.log(deckItem);
+          // console.log('deck: ' + $(deckItem).find('.deck-meta h4').text().trim());
+          let mainDeck = $(deckItem).find('.sorted-by-overview-container .row');
+          mainDeck.each((j, cardItem) => {
+            let count = $(cardItem).find('.card-count').text().trim();
+            let name = $(cardItem).find('.card-name').text().trim();
+            newDeck.cards.push({
+              count: count,
+              name: name,
+            });
+          });
 
-  		  	let sideboard = $(deckItem).find('.sorted-by-sideboard-container .row');
-  		  	sideboard.each((j, cardItem) => {
-  		  	  let count = $(cardItem).find('.card-count').text().trim();
-  		  	  let name = $(cardItem).find('.card-name').text().trim();
-  		  	  newDeck.sideboard.push({
-  		  	  	count: count,
-  		  	  	name: name,
-  		  	  });
-  		  	});
+          let sideboard = $(deckItem).find('.sorted-by-sideboard-container .row');
+          sideboard.each((j, cardItem) => {
+            let count = $(cardItem).find('.card-count').text().trim();
+            let name = $(cardItem).find('.card-name').text().trim();
+            newDeck.sideboard.push({
+              count: count,
+              name: name,
+            });
+          });
 
           //console.log(newDeck.cards.length);
 
-    			if (newDeck.cards.length > 0) {
+          if (newDeck.cards.length > 0) {
             //console.log('got here?');
             Meteor.call('decks.insertFromMTGO', newDeck);
-    			}
+          }
 
-  		  });
-  		}, function () { console.log('Failed to bind environment'); }));
+        });
+      }, function () { console.log('Failed to bind environment'); }));
 
     }
   },

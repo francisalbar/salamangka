@@ -14,11 +14,11 @@ export default class Deck extends Component {
   }
 
   renderCards() {
-  	return this.props.deck.cards.map((card) => {
-		return (
-			<li>{ card.name } ({ card.count })</li>
-		);
-  	});
+    return this.props.deck.cards.map((card) => {
+      return (
+        <li>{ card.name } ({ card.count })</li>
+      );
+    });
   }
 
   render() {
@@ -41,11 +41,11 @@ export default class Deck extends Component {
           </button>
         ) : ''}
 
-      	<span className="text">{this.props.deck.player} ({this.props.deck.result})</span> <strong>{this.props.deck.username}</strong>
+        <span className="text">{this.props.deck.player} ({this.props.deck.result})</span> <strong>{this.props.deck.username}</strong>
 
-      	<ul>
-      		{this.renderCards()}
-      	</ul>
+        <ul>
+          {this.renderCards()}
+        </ul>
       </li>
     );
   }
