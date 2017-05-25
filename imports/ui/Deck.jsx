@@ -13,6 +13,14 @@ export default class Deck extends Component {
     Meteor.call('decks.setPrivate', this.props.deck._id, ! this.props.deck.private);
   }
 
+  renderCards() {
+  	return this.props.deck.cards.map((card) => {
+		return (
+			<li>{ card.name } ({ card.count })</li>
+		);
+  	});
+  }
+
   render() {
     // Give decks a different className when they are checked off,
     // so that we can style them nicely in CSS
@@ -34,6 +42,10 @@ export default class Deck extends Component {
         ) : ''}
 
       	<span className="text">{this.props.deck.player} ({this.props.deck.result})</span> <strong>{this.props.deck.username}</strong>
+
+      	<ul>
+      		{this.renderCards()}
+      	</ul>
       </li>
     );
   }
