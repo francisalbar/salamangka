@@ -52,6 +52,7 @@ export default class Event extends Component {
         <h2>Decks</h2>
 
         <ul>
+          List decks here
         </ul>
 
       </div>
