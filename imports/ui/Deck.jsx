@@ -3,7 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Card, { CardManaCost } from './Card.jsx';
+import Card from './Card.jsx';
+import Library from './Library.jsx';
 
 // Deck component
 export default class Deck extends Component {
@@ -20,11 +21,13 @@ export default class Deck extends Component {
     return cards.map((card) => {
       return (
         <li key={this.props.deck._id + listType + card.name}>
-          { card.name } ({ card.count })
+          { card.count } { card.name }&nbsp;
           <Card
             name={card.name}
             detail="manaCost"
           />
+          &nbsp;
+          <Library name={card.name} />
         </li>
       );
     });
@@ -63,10 +66,12 @@ export default class Deck extends Component {
         <span className="text">{this.props.deck.player} ({this.props.deck.result})</span>
         {/*<span className="author">&nbsp;{this.props.deck.username}</span>*/}
 
+        <h4>Main Deck</h4>
         <ul className="main-deck">
           {this.renderMainDeck()}
         </ul>
 
+        <h4>Sideboard</h4>
         <ul className="sideboard">
           {this.renderSideboard()}
         </ul>

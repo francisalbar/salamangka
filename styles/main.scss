@@ -41,7 +41,7 @@ nav.utility {
   grid-template-columns: 33% 33% 34%;
   grid-template-rows: 2em auto;
   grid-template-areas: "a a a"
-                       "b c c";
+                       "b c d";
 
   > h2 {
     grid-area: a;
@@ -55,4 +55,9 @@ nav.utility {
     grid-area: c;
   }
 
+}
+
+
+.owned-cards .printing {
+  border: 1px solid #ccc;
 }

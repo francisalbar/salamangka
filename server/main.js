@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
+import '../imports/api/libraries.js';
 import '../imports/api/cards.js';
 import '../imports/api/decks.js';
 import '../imports/api/events.js';
