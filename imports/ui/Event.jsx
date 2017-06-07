@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 import Deck, { DeckListing } from './Deck.jsx';
 
-// Event component - represents a single todo item
+// Event component
 export default class Event extends Component {
   constructor(props) {
     super(props);
@@ -119,10 +120,7 @@ export default class Event extends Component {
 }
 
 Event.propTypes = {
-  // This component gets the event to display through a React prop.
-  // We can use propTypes to indicate it is required
   event: PropTypes.object.isRequired,
-  // showPrivateButton: React.PropTypes.bool.isRequired,
 };
 
 export class EventListing extends Event {

@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 
 import { Decks } from '../api/decks.js';
 import { Events } from '../api/events.js';

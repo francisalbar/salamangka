@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 import Card, { CardManaCost } from './Card.jsx';
 
-// Deck component - represents a single todo item
+// Deck component
 export default class Deck extends Component {
 
   deleteThisDeck() {
@@ -17,12 +18,12 @@ export default class Deck extends Component {
 
   renderCards(listType, cards) {
     return cards.map((card) => {
-      // const cardInfo = Cards.findOne({ name: card.name });
       return (
         <li key={this.props.deck._id + listType + card.name}>
           { card.name } ({ card.count })
           <Card
             name={card.name}
+            detail="manaCost"
           />
         </li>
       );

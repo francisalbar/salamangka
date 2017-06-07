@@ -1,26 +1,30 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 import { Cards } from '../api/cards.js';
 
-// Card component - represents a single card item
+// Card component
 class Card extends Component {
 
   render() {
-
-    // console.log('DERP', this.props.filteredCard);
-    console.log('DORP', this.props.card);
     const card = this.props.card;
     if (!card) {
       return false;
     }
 
+    if (this.props.detail) {
+      const detail = card[this.props.detail] || '';
+      return(
+        <span>{ detail }</span>
+      );
+    }
+
     return(
       <div className="card">
-        { card.manaCost } |
-        { card._id }
+        { card.text }
       </div>
     );
   }
@@ -29,22 +33,14 @@ class Card extends Component {
 Card.propTypes = {
   card: PropTypes.object,
   name: PropTypes.string.isRequired,
+  detail: PropTypes.string,
 };
 
 export default createContainer((props) => {
-  Meteor.subscribe('cards');
+  Meteor.subscribe('cards', props.name);
 
   return {
     card: Cards.findOne({ name: props.name }),
   };
 }, Card);
 
-export class CardManaCost extends Card {
-  render () {
-    return (
-      <div className="card-mana-cost">
-        { this.props.card.manaCost }
-      </div>
-    );
-  }
-}
