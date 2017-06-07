@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import classnames from 'classnames';
 
+import Card, { CardManaCost } from './Card.jsx';
+
 // Deck component - represents a single todo item
 export default class Deck extends Component {
 
@@ -13,12 +15,26 @@ export default class Deck extends Component {
     Meteor.call('decks.setPrivate', this.props.deck._id, ! this.props.deck.private);
   }
 
-  renderCards() {
-    return this.props.deck.cards.map((card) => {
+  renderCards(listType, cards) {
+    return cards.map((card) => {
+      // const cardInfo = Cards.findOne({ name: card.name });
       return (
-        <li key={this.props.deck._id + card.name}>{ card.name } ({ card.count })</li>
+        <li key={this.props.deck._id + listType + card.name}>
+          { card.name } ({ card.count })
+          <Card
+            name={card.name}
+          />
+        </li>
       );
     });
+  }
+
+  renderMainDeck() {
+    return this.renderCards('main-deck', this.props.deck.cards);
+  }
+
+  renderSideboard() {
+    return this.renderCards('sideboard', this.props.deck.sideboard);
   }
 
   render() {
@@ -31,9 +47,11 @@ export default class Deck extends Component {
 
     return (
       <div className="deck">
+        {/*
         <button className="delete" onClick={this.deleteThisDeck.bind(this)}>
           &times;
         </button>
+        */}
 
         { this.props.showPrivateButton ? (
           <button className="toggle-private" onClick={this.togglePrivate.bind(this)}>
@@ -41,10 +59,15 @@ export default class Deck extends Component {
           </button>
         ) : ''}
 
-        <span className="text">{this.props.deck.player} ({this.props.deck.result})</span> <strong>{this.props.deck.username}</strong>
+        <span className="text">{this.props.deck.player} ({this.props.deck.result})</span>
+        {/*<span className="author">&nbsp;{this.props.deck.username}</span>*/}
 
-        <ul>
-          {this.renderCards()}
+        <ul className="main-deck">
+          {this.renderMainDeck()}
+        </ul>
+
+        <ul className="sideboard">
+          {this.renderSideboard()}
         </ul>
       </div>
     );

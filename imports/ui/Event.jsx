@@ -78,7 +78,12 @@ export default class Event extends Component {
 
     return (
       <div className="event">
-        <div className="item-actions">
+        <span>
+          <span className="event-name">{this.props.event.eventName}</span>
+          <span className="event-deck-count">({this.props.event.deckCount})</span>
+        </span>
+
+        <span className="item-actions">
           <button className="delete" onClick={this.deleteThisEvent.bind(this)}>
             &times;
           </button>
@@ -91,14 +96,10 @@ export default class Event extends Component {
 
           <a href={this.props.event.source} target="_blank">src</a>
 
-          <strong>{this.props.event.username}</strong>
+          <span className="author">&nbsp;{this.props.event.username}</span>
 
-        </div>
-
-        <span>
-          <span className="event-name">{this.props.event.eventName}</span>
-          <span className="event-deck-count">({this.props.event.deckCount})</span>
         </span>
+
 
         { this.props.decks ? (
           <div className="event-decks">
@@ -141,16 +142,16 @@ export class EventListing extends Event {
 
     return (
       <div className="event-listing">
-        <div className="item-actions">
+        <a href="#" onClick={this.selectThisEvent.bind(this)}>
+          <span className="event-name">{this.props.event.eventName}</span>
+          <span className="event-deck-count">&nbsp;({this.props.event.deckCount})</span>
+        </a>
+
+        <span className="item-actions">
           <button className="delete" onClick={this.deleteThisEvent.bind(this)}>
             &times;
           </button>
-        </div>
-
-        <a href="#" onClick={this.selectThisEvent.bind(this)}>
-          <span className="event-name">{this.props.event.eventName}</span>
-          <span className="event-deck-count">({this.props.event.deckCount})</span>
-        </a>
+        </span>
       </div>
     );
   }

@@ -20,8 +20,8 @@ class App extends Component {
     };
   }
 
-  loadMTGOEvent(event) {
-    event.preventDefault();
+  loadMTGOEvent(ev) {
+    ev.preventDefault();
 
     const url = ReactDOM.findDOMNode(this.refs.mtgoURLInput).value.trim();
 
@@ -115,17 +115,19 @@ class App extends Component {
         <header>
           <h1>Decks</h1>
 
-          <AccountsUIWrapper />
+          <nav className="utility">
+            <AccountsUIWrapper />
 
-          { this.props.currentUser ?
-            <form className="load-mtgo-event" onSubmit={this.loadMTGOEvent.bind(this)} >
-              <input
-                type="text"
-                ref="mtgoURLInput"
-                placeholder="Type to add new MTGO event url"
-              />
-            </form> : ''
-          }
+            { this.props.currentUser ?
+              <form className="load-mtgo-event" onSubmit={this.loadMTGOEvent.bind(this)} >
+                <input
+                  type="text"
+                  ref="mtgoURLInput"
+                  placeholder="Type to add new MTGO event url"
+                />
+              </form> : ''
+            }
+          </nav>
         </header>
 
         <h2>Events</h2>

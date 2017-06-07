@@ -1,16 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import req from 'request';
-import cheerio from 'cheerio';
-import iconv from 'iconv-lite';
-import moment from 'moment';
 
 export const Decks = new Mongo.Collection('decks');
 
+// Only publish decks that are public or belong to the current user
 if (Meteor.isServer) {
-  // This code only runs on the server
-  // Only publish decks that are public or belong to the current user
   Meteor.publish('decks', function decksPublication() {
     return Decks.find({
       $or: [
@@ -34,20 +29,11 @@ Meteor.methods({
     Decks.insert(newDeck);
   },
 
+  // [TODO] Insert deck from string
   'decks.insert'(text) {
     check(text, String);
 
-    // Make sure the user is logged in before inserting a deck
-    if (! Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
-    }
-
-    Decks.insert({
-      text,
-      createdAt: new Date(),
-      owner: Meteor.userId(),
-      username: Meteor.user().username,
-    });
+    throw new Meteor.Error('not-implemented');
   },
 
   'decks.remove'(deckId) {

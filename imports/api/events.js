@@ -8,9 +8,8 @@ import moment from 'moment';
 
 export const Events = new Mongo.Collection('events');
 
+// Only publish events that are public or belong to the current user
 if (Meteor.isServer) {
-  // This code only runs on the server
-  // Only publish decks that are public or belong to the current user
   Meteor.publish('events', function eventsPublication() {
     return Events.find({
       $or: [
@@ -104,22 +103,6 @@ Meteor.methods({
     }
   },
 
-  'events.insert'(text) {
-    check(text, String);
-
-    // Make sure the user is logged in before inserting a event
-    if (! Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
-    }
-
-    Events.insert({
-      text,
-      createdAt: new Date(),
-      owner: Meteor.userId(),
-      username: Meteor.user().username,
-    });
-  },
-
   'events.remove'(eventId) {
     check(eventId, String);
 
@@ -136,6 +119,10 @@ Meteor.methods({
   'events.setPrivate'(eventId, setToPrivate) {
     check(eventId, String);
     check(setToPrivate, Boolean);
+
+    if (!Roles.userIsInRole(Meteor.user(), ['super-admin','admin'])) {
+      throw new Meteor.Error('not-authorized');
+    }
 
     const event = Events.findOne(eventId);
     if (event.private && event.owner !== Meteor.userId()) {

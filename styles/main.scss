@@ -1,0 +1,58 @@
+@font-face {
+  font-family: 'Beleren';
+  src: url('/styles/fonts/beleren-bold-webfont.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'BelerenCaps';
+  src: url('/styles/fonts/belerensmallcaps-bold-webfont.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: Helvetica;
+}
+
+h1, h2 {
+  font-family: 'Beleren';
+}
+
+
+nav.utility {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+// .event-listing {
+//   overflow: auto;
+// }
+
+.event > .item-actions,
+.event-listing > .item-actions {
+  // float: right;
+  margin-left: 0.5em;
+}
+
+.event-decks {
+  display: grid;
+  grid-template-columns: 33% 33% 34%;
+  grid-template-rows: 2em auto;
+  grid-template-areas: "a a a"
+                       "b c c";
+
+  > h2 {
+    grid-area: a;
+  }
+
+  > ul {
+    grid-area: b;
+  }
+
+  > .deck {
+    grid-area: c;
+  }
+
+}
