@@ -41,10 +41,14 @@ Meteor.methods({
       for( var i in exists.sets ) {
         total = total + exists.sets[i];
       }
-      Libraries.update(
-        {_id: exists._id},
-        {$set: { total: total, sets: exists.sets }}
-      );
+      if (total === 0) {
+        Libraries.remove(exists._id);
+      } else {
+        Libraries.update(
+          {_id: exists._id},
+          {$set: { total: total, sets: exists.sets }}
+        );
+      }
     }
 
     // throw new Meteor.Error('not-implemented');

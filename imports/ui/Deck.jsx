@@ -18,16 +18,18 @@ export default class Deck extends Component {
   }
 
   renderCards(listType, cards) {
+    const currentUser = Meteor.user();
     return cards.map((card) => {
       return (
         <li key={this.props.deck._id + listType + card.name}>
-          { card.count } { card.name }&nbsp;
-          <Card
-            name={card.name}
-            detail="manaCost"
-          />
-          &nbsp;
-          <Library name={card.name} />
+          <div className="card-info">
+            { card.count }x { card.name }&nbsp;
+
+            {/*<Card name={card.name} detail="colorIdentity" />*/}
+            <Card name={card.name} detail="manaCost" />
+          </div>
+
+          { currentUser ? <Library name={card.name} needed={card.count} /> : '' }
         </li>
       );
     });
@@ -63,18 +65,22 @@ export default class Deck extends Component {
           </button>
         ) : ''}
 
-        <span className="text">{this.props.deck.player} ({this.props.deck.result})</span>
+        <h3 className="text">{this.props.deck.player} ({this.props.deck.result})</h3>
         {/*<span className="author">&nbsp;{this.props.deck.username}</span>*/}
 
-        <h4>Main Deck</h4>
-        <ul className="main-deck">
-          {this.renderMainDeck()}
-        </ul>
+        <div className="main-deck">
+          <h4>Main Deck</h4>
+          <ul>
+            {this.renderMainDeck()}
+          </ul>
+        </div>
 
-        <h4>Sideboard</h4>
-        <ul className="sideboard">
-          {this.renderSideboard()}
-        </ul>
+        <div className="sideboard">
+          <h4>Sideboard</h4>
+          <ul className="sideboard">
+            {this.renderSideboard()}
+          </ul>
+        </div>
       </div>
     );
   }

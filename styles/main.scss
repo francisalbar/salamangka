@@ -15,15 +15,34 @@ body {
   font-family: Helvetica;
 }
 
-h1, h2 {
+h1, h2, h3, h4 {
   font-family: 'Beleren';
+  margin: 0 0 0.2em 0;
+  padding: 0;
 }
+
+.status-red {
+  border-color: #f33;
+  background-color: #dcc;
+}
+
+.status-green {
+  border-color: #060;
+  background-color: #cdc;
+}
+
+.status-orange {
+  border-color: #c63;
+  background-color: #dcb;
+}
+
+
 
 
 nav.utility {
   position: absolute;
   top: 10px;
-  right: 10px;
+  left: 50%;
 }
 
 // .event-listing {
@@ -38,10 +57,10 @@ nav.utility {
 
 .event-decks {
   display: grid;
-  grid-template-columns: 33% 33% 34%;
+  grid-template-columns: 24% 38% 38%;
   grid-template-rows: 2em auto;
   grid-template-areas: "a a a"
-                       "b c d";
+                       "b c c";
 
   > h2 {
     grid-area: a;
@@ -49,15 +68,135 @@ nav.utility {
 
   > ul {
     grid-area: b;
+    margin: 0;
+    padding: 0.5em;
+
+    li {
+      list-style: none;
+      margin: 0;
+    }
   }
 
   > .deck {
     grid-area: c;
+
+    > div {
+      float: left;
+      width: 49%;
+      margin: 0 1% 0 0;
+    }
+
+    > div > ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0.2em 0;
+        padding: 0.2em;
+        overflow: auto;
+        background-color: #eee;
+
+        > .card-info {
+          font-family: Beleren;
+          line-height: 1.4em;
+          position: relative;
+          overflow: auto;
+
+          .mana-cost {
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+        }
+      }
+    }
   }
 
 }
 
 
-.owned-cards .printing {
-  border: 1px solid #ccc;
+.owned-cards {
+  overflow: auto;
+
+  .printing-more {
+    display: none;
+  }
+
+  &:hover .printing-more {
+    display: block;
+  }
+
+  .printing-total {
+    width: 1.8em;
+    text-align: center;
+  }
+
+  .printing {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    position: relative;
+    height: 1.2em;
+    float: left;
+    margin: 0 0.1em 0 0;
+
+    &.owned-status-red {
+      @extend .status-red;
+    }
+
+    &.owned-status-green {
+      @extend .status-green;
+    }
+
+    &.owned-status-orange {
+      @extend .status-orange;
+    }
+
+    .ss {
+      margin: 0 0.2em;
+      width: 1em;
+    }
+
+    .set-name {
+      display: none;
+    }
+
+    .count {
+      font-size: 0.8em;
+      display: inline-block;
+      width: 1.5em;
+      text-align: center;
+    }
+
+    .total {
+      font-size: 0.8em;
+      padding: 0 0.2em;
+      font-weight: bold;
+    }
+
+    button {
+      position: absolute;
+      left: 0.1em;
+      width: 45%;
+      height: 42%;
+      text-align: center;
+      padding: 0;
+      opacity: 0;
+      outline: none;
+      border: 1px solid #ccc;
+
+      &.add {
+        @extend .status-green;
+        top: 0.1em;
+      }
+
+      &.subtract {
+        @extend .status-red;
+        bottom: 0.1em;
+      }
+    }
+
+    &:hover button {
+      opacity: 1;
+    }
+  }
 }

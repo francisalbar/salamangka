@@ -79,10 +79,10 @@ export default class Event extends Component {
 
     return (
       <div className="event">
-        <span>
+        <h3>
           <span className="event-name">{this.props.event.eventName}</span>
           <span className="event-deck-count">({this.props.event.deckCount})</span>
-        </span>
+        </h3>
 
         <span className="item-actions">
           <button className="delete" onClick={this.deleteThisEvent.bind(this)}>
@@ -104,8 +104,6 @@ export default class Event extends Component {
 
         { this.props.decks ? (
           <div className="event-decks">
-            <h2>Decks</h2>
-
             <ul>
               { this.renderDecks() }
             </ul>

@@ -47,21 +47,36 @@ class Library extends Component {
           ownedOfSet = owned.sets[set];
         }
 
+        let showMore = !ownedOfSet ? 'printing-more' : '';
+
         return (
-          <div className="printing" key={this.props.name + '-' + set}>
-            <i className={'ss ss-' + set.toLowerCase()}></i>
-            <span>&nbsp;{ set }: { ownedOfSet }&nbsp;</span>
-            <button onClick={this.addOwned.bind(this, set)}>+</button>
-            <button onClick={this.subtractOwned.bind(this, set)}>-</button>
+          <div className={'printing ' + showMore} title={set.toUpperCase()} key={this.props.name + '-' + set}>
+            <i className={'ss ss-fw ss-' + set.toLowerCase()}></i>
+            <span className="set-name">{ set }</span>
+            <span className="count">{ ownedOfSet }&nbsp;</span>
+            <button className="add" onClick={this.addOwned.bind(this, set)} title={set.toUpperCase()} k></button>
+            <button className="subtract" onClick={this.subtractOwned.bind(this, set)} title={set.toUpperCase()} k></button>
           </div>
         );
       });
 
     }
 
+    const total = owned ? owned.total : 0;
+    let ownedStatus = 'owned-status-red';
+    if (this.props.needed) {
+      if (total >= this.props.needed) {
+        ownedStatus = 'owned-status-green';
+      } else if (total > 0 && total >= this.props.needed - 2) {
+        ownedStatus = 'owned-status-orange';
+      }
+    }
+
     return(
       <div className="owned-cards">
-        { owned ? owned.total : 0 }
+        <div className={'printing printing-total ' + ownedStatus}>
+          <span className="total">{ total }</span>
+        </div>
 
         { printings }
       </div>

@@ -16,6 +16,30 @@ class Card extends Component {
     }
 
     if (this.props.detail) {
+      if (this.props.detail === 'manaCost') {
+        if (!card[this.props.detail]) {
+          return null;
+        }
+
+        const manaCost = card[this.props.detail].split('}{').map((cost, i) => {
+          cost = cost.replace('}', '').replace('{', '').toLowerCase().split('/');
+          let classNames = ['ms', 'ms-cost'];
+          cost.map((single) => {
+            classNames.push('ms-' + single);
+          });
+          let className = classNames.join(' ');
+          return(
+            <i className={className} key={card.name + i + className}></i>
+          );
+        });;
+
+        return(
+          <span className="mana-cost">
+            {manaCost}
+          </span>
+        );
+      }
+
       const detail = card[this.props.detail] || '';
       return(
         <span>{ detail }</span>
