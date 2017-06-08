@@ -40,6 +40,29 @@ class Card extends Component {
         );
       }
 
+      if (this.props.detail === 'types') {
+        if (!card[this.props.detail]) {
+          return null;
+        }
+
+        console.log(card[this.props.detail]);
+
+        const cardTypes = card[this.props.detail].map((cardType, i) => {
+          let classNames = ['ms'];
+          classNames.push('ms-' + cardType.toLowerCase());
+          let className = classNames.join(' ');
+          return(
+            <i className={className} key={card.name + i + className}></i>
+          );
+        });;
+
+        return(
+          <span className="card-types">
+            {cardTypes}
+          </span>
+        );
+      }
+
       const detail = card[this.props.detail] || '';
       return(
         <span>{ detail }</span>

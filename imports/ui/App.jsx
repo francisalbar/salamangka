@@ -114,7 +114,7 @@ class App extends Component {
     return (
       <div className="container">
         <header>
-          <h1>Decks</h1>
+          <h1>Salamangka</h1>
 
           <nav className="utility">
             <AccountsUIWrapper />
@@ -131,10 +131,12 @@ class App extends Component {
           </nav>
         </header>
 
-        <h2>Events</h2>
-        <ul>
-          {this.renderEventList()}
-        </ul>
+        <div className="events-listing">
+          <h2>Events</h2>
+          <ul>
+            {this.renderEventList()}
+          </ul>
+        </div>
 
         <hr />
 

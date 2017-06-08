@@ -13,6 +13,7 @@
 
 body {
   font-family: Helvetica;
+  font-size: 16px;
 }
 
 h1, h2, h3, h4 {
@@ -49,6 +50,21 @@ nav.utility {
 //   overflow: auto;
 // }
 
+.events-listing {
+  font-size: 0.8em;
+
+  > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    > li {
+      margin: 0 0 0.2em 0;
+      padding: 0;
+    }
+  }
+}
+
 .event > .item-actions,
 .event-listing > .item-actions {
   // float: right;
@@ -67,11 +83,12 @@ nav.utility {
   }
 
   > ul {
+    font-size: 0.8em;
     grid-area: b;
     margin: 0;
     padding: 0.5em;
 
-    li {
+    > li {
       list-style: none;
       margin: 0;
     }
@@ -82,7 +99,13 @@ nav.utility {
 
     > div {
       float: left;
-      width: 49%;
+
+      &.main-deck {
+        width: 59%;
+      }
+      &.sideboard {
+        width: 39%;
+      }
       margin: 0 1% 0 0;
     }
 
@@ -90,11 +113,12 @@ nav.utility {
       margin: 0;
       padding: 0;
 
-      li {
+      > li {
         margin: 0.2em 0;
         padding: 0.2em;
         overflow: auto;
         background-color: #eee;
+        list-style: none;
 
         > .card-info {
           font-family: Beleren;
@@ -106,6 +130,10 @@ nav.utility {
             position: absolute;
             top: 0;
             right: 0;
+
+            > i {
+              margin-left: 0.1em;
+            }
           }
         }
       }
@@ -117,6 +145,7 @@ nav.utility {
 
 .owned-cards {
   overflow: auto;
+  margin-left: 1em;
 
   .printing-more {
     display: none;
@@ -137,7 +166,7 @@ nav.utility {
     position: relative;
     height: 1.2em;
     float: left;
-    margin: 0 0.1em 0 0;
+    margin: 0 0.1em 0.1em 0;
 
     &.owned-status-red {
       @extend .status-red;
