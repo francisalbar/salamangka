@@ -23,9 +23,11 @@ export default class Deck extends Component {
       return (
         <li key={this.props.deck._id + listType + card.name}>
           <div className="card-info">
-            <Card name={card.name} detail="types" />
+            <Card name={card.name} detail="thumb" />
 
-            &nbsp;{ card.count }x { card.name }
+            <span>{ card.count }x { card.name }&nbsp;</span>
+
+            <Card name={card.name} detail="types" />
 
             <Card name={card.name} detail="manaCost" />
           </div>

@@ -126,6 +126,17 @@ nav.utility {
           position: relative;
           overflow: auto;
 
+          .card-thumb {
+            float: left;
+            height: 1.5em;
+            margin-right: 0.4em;
+
+            > img {
+              width: 2em;
+              height: 1.5em;
+            }
+          }
+
           .mana-cost {
             position: absolute;
             top: 0;
@@ -145,7 +156,7 @@ nav.utility {
 
 .owned-cards {
   overflow: auto;
-  margin-left: 1em;
+  margin-top: 0.2em;
 
   .printing-more {
     display: none;

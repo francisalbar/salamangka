@@ -16,6 +16,29 @@ class Card extends Component {
     }
 
     if (this.props.detail) {
+      if (this.props.detail === 'thumb') {
+        let i = 0;
+        let firstPrinting = card.printings.shift(i,1);
+        while(firstPrinting[0] === 'p' || firstPrinting === 'DDS') {
+          i++;
+          firstPrinting = card.printings.shift(i,1);
+        }
+        if (firstPrinting === 'CON') {
+          firstPrinting = 'CFX';
+        }
+        return(
+          <div className="card-thumb"><img src={
+            'http://cdn.manaclash.com/images/cards/32x24/' +
+            firstPrinting + '/' +
+            (card.name
+              .replace(/[',]/g, '')
+              .replace(/ /g, '-')
+              .toLowerCase()
+            ) + '.jpg'
+          } /></div>
+        );
+      }
+
       if (this.props.detail === 'manaCost') {
         if (!card[this.props.detail]) {
           return null;
